@@ -1,0 +1,1724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Freemont Atlas State Roleplay</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Barlow+Condensed:wght@400;500;600;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:       #111c2a;
+    --navy-mid:   #172233;
+    --navy-light: #1e2f45;
+    --navy-card:  #162030;
+    --red:        #8b2020;
+    --red-mid:    #a02828;
+    --red-bright: #c03030;
+    --cream:      #f0e8d0;
+    --cream-dim:  #c8bca0;
+    --gold:       #c9a070;
+    --gold-light: #e0b888;
+    --gold-dim:   #8a6040;
+    --teal:       #4abbc4;
+    --teal-dim:   #2a7a82;
+    --dark:       #0b1320;
+    --gray:       #7a8fa8;
+    --gray-light: #a8bcd0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--dark);
+    color: var(--cream);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ===== TOPBAR ===== */
+  .topbar {
+    background: var(--red);
+    text-align: center;
+    padding: 6px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cream);
+  }
+
+  /* ===== NAVBAR ===== */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: var(--navy);
+    border-bottom: 2px solid var(--red);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    height: 68px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+  }
+
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  /* Logo recreation in CSS */
+  .logo-mark {
+    position: relative;
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+  }
+
+  .logo-mark svg { width: 100%; height: 100%; }
+
+  .nav-title-wrap {
+    line-height: 1.15;
+  }
+
+  .nav-title-top {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--cream);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .nav-title-band {
+    display: inline-block;
+    background: var(--red);
+    color: var(--cream);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 1px 6px;
+    margin-bottom: 1px;
+  }
+
+  .nav-title-bot {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.22em;
+    color: var(--gray-light);
+    text-transform: uppercase;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--gray-light);
+    text-decoration: none;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0 1rem;
+    height: 68px;
+    display: flex;
+    align-items: center;
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s;
+  }
+
+  .nav-links a:hover, .nav-links a.active {
+    color: var(--gold-light);
+    border-bottom-color: var(--red);
+    background: rgba(139,32,32,0.1);
+  }
+
+  .nav-actions { display: flex; gap: 10px; align-items: center; }
+
+  .btn {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 8px 20px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .btn-outline {
+    background: transparent;
+    border: 1.5px solid rgba(201,160,112,0.4);
+    color: var(--gold);
+  }
+  .btn-outline:hover { background: rgba(201,160,112,0.1); border-color: var(--gold); }
+
+  .btn-red {
+    background: var(--red);
+    color: var(--cream);
+  }
+  .btn-red:hover { background: var(--red-bright); }
+
+  .btn-gold {
+    background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+    color: var(--dark);
+  }
+  .btn-gold:hover { background: linear-gradient(135deg, var(--gold-light), var(--gold)); }
+
+  /* ===== PAGES ===== */
+  .page { display: none; min-height: calc(100vh - 96px); }
+  .page.active { display: block; }
+
+  /* ===== HERO ===== */
+  .hero {
+    position: relative;
+    min-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 6rem 2rem 4rem;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 90% 70% at 50% 55%, rgba(17,28,42,0.95) 30%, transparent 100%),
+      linear-gradient(160deg, var(--dark) 0%, var(--navy) 40%, #1a1020 100%);
+  }
+
+  /* Skyline silhouette */
+  .hero-skyline {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 220px;
+    opacity: 0.06;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 220' fill='%23c9a070'%3E%3Crect x='0' y='140' width='60' height='80'/%3E%3Crect x='40' y='100' width='40' height='120'/%3E%3Crect x='100' y='120' width='50' height='100'/%3E%3Crect x='130' y='70' width='30' height='150'/%3E%3Crect x='180' y='130' width='70' height='90'/%3E%3Crect x='240' y='50' width='45' height='170'/%3E%3Crect x='275' y='30' width='20' height='190'/%3E%3Crect x='310' y='90' width='55' height='130'/%3E%3Crect x='380' y='110' width='80' height='110'/%3E%3Crect x='450' y='60' width='35' height='160'/%3E%3Crect x='500' y='140' width='60' height='80'/%3E%3Crect x='570' y='40' width='50' height='180'/%3E%3Crect x='610' y='20' width='25' height='200'/%3E%3Crect x='650' y='80' width='65' height='140'/%3E%3Crect x='730' y='100' width='45' height='120'/%3E%3Crect x='790' y='130' width='70' height='90'/%3E%3Crect x='870' y='60' width='40' height='160'/%3E%3Crect x='920' y='110' width='55' height='110'/%3E%3Crect x='990' y='90' width='50' height='130'/%3E%3Crect x='1050' y='120' width='80' height='100'/%3E%3Crect x='1140' y='140' width='60' height='80'/%3E%3C/svg%3E");
+    background-size: cover;
+    background-position: bottom;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(201,160,112,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,160,112,0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+  }
+
+  .hero-logo {
+    position: relative;
+    width: 160px;
+    height: 160px;
+    margin-bottom: 2rem;
+    animation: logoPulse 5s ease-in-out infinite;
+    filter: drop-shadow(0 0 40px rgba(139,32,32,0.4));
+  }
+
+  @keyframes logoPulse {
+    0%, 100% { filter: drop-shadow(0 0 30px rgba(139,32,32,0.35)) drop-shadow(0 0 60px rgba(74,187,196,0.1)); }
+    50% { filter: drop-shadow(0 0 50px rgba(139,32,32,0.55)) drop-shadow(0 0 80px rgba(74,187,196,0.2)); }
+  }
+
+  .hero-eyebrow {
+    position: relative;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.35em;
+    color: var(--teal);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.2s forwards;
+  }
+
+  .hero-title {
+    position: relative;
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 700;
+    line-height: 0.9;
+    letter-spacing: 0.04em;
+    color: var(--cream);
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.4s forwards;
+  }
+
+  .hero-title-band {
+    position: relative;
+    display: inline-block;
+    background: var(--red);
+    padding: 4px 24px;
+    margin: 8px 0;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(1rem, 3vw, 1.6rem);
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    color: var(--cream);
+    opacity: 0;
+    animation: fadeUp 0.6s 0.6s forwards;
+  }
+
+  .hero-sub-title {
+    position: relative;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(0.8rem, 2vw, 1rem);
+    letter-spacing: 0.4em;
+    color: var(--gray-light);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.8s forwards;
+  }
+
+  .hero-divider {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.9s forwards;
+  }
+  .hero-divider::before, .hero-divider::after {
+    content: '';
+    height: 1px;
+    width: 70px;
+    background: linear-gradient(90deg, transparent, var(--red));
+  }
+  .hero-divider::after { background: linear-gradient(270deg, transparent, var(--red)); }
+  .hero-divider-icon { color: var(--gold); font-size: 1rem; }
+
+  .hero-desc {
+    position: relative;
+    font-size: 1rem;
+    color: var(--gray-light);
+    max-width: 520px;
+    line-height: 1.75;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.6s 1s forwards;
+  }
+
+  .hero-buttons {
+    position: relative;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    opacity: 0;
+    animation: fadeUp 0.6s 1.15s forwards;
+  }
+
+  .hero-badges {
+    position: relative;
+    display: flex;
+    gap: 2rem;
+    margin-top: 4rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid rgba(201,160,112,0.12);
+    opacity: 0;
+    animation: fadeUp 0.6s 1.3s forwards;
+  }
+
+  .hero-badge-item { text-align: center; }
+  .hero-badge-val {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.8rem;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .hero-badge-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-top: 3px;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== SECTION ===== */
+  .section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+  }
+
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 0.5rem;
+  }
+
+  .section-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--cream);
+  }
+
+  .section-title span { color: var(--red-mid); }
+
+  .section-rule {
+    width: 48px;
+    height: 3px;
+    background: var(--red);
+    margin: 1rem 0 2.5rem;
+  }
+
+  /* ===== DEPT CARDS ===== */
+  .dept-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+    gap: 1.2rem;
+  }
+
+  .dept-card {
+    background: var(--navy-card);
+    border: 1px solid rgba(201,160,112,0.1);
+    border-top: 3px solid var(--card-accent, var(--red));
+    padding: 1.8rem;
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .dept-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.02) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .dept-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(201,160,112,0.3);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.5);
+  }
+
+  .dept-card.ffd { --card-accent: #d05020; }
+  .dept-card.fpd { --card-accent: #2060d0; }
+  .dept-card.fems { --card-accent: #c02020; }
+  .dept-card.fcom { --card-accent: #c9a070; }
+
+  .dept-icon-wrap {
+    width: 52px;
+    height: 52px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.07);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .dept-abbr {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--cream);
+    letter-spacing: 0.06em;
+  }
+
+  .dept-full {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: 0.9rem;
+  }
+
+  .dept-desc {
+    font-size: 0.87rem;
+    color: var(--gray-light);
+    line-height: 1.65;
+    margin-bottom: 1.4rem;
+  }
+
+  .dept-cta {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+  }
+
+  /* ===== DEPT DETAIL PAGE ===== */
+  .dept-detail-hero {
+    background: linear-gradient(180deg, var(--navy-mid) 0%, var(--dark) 100%);
+    border-bottom: 1px solid rgba(201,160,112,0.1);
+    padding: 3.5rem 2rem 2.5rem;
+  }
+
+  .dept-detail-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .dept-badge-large {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--navy);
+    border: 2px solid var(--gold-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    flex-shrink: 0;
+  }
+
+  .dept-detail-info h1 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--cream);
+  }
+
+  .dept-detail-info .dept-sub {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-top: 4px;
+  }
+
+  .dept-detail-body {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+    margin-bottom: 2rem;
+  }
+
+  .info-card {
+    background: var(--navy-card);
+    border: 1px solid rgba(201,160,112,0.1);
+    padding: 1.5rem;
+  }
+
+  .info-card.full { grid-column: 1 / -1; }
+
+  .info-card h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(201,160,112,0.1);
+  }
+
+  .info-card p {
+    font-size: 0.88rem;
+    color: var(--gray-light);
+    line-height: 1.7;
+  }
+
+  .info-card ul { list-style: none; }
+  .info-card ul li {
+    font-size: 0.87rem;
+    color: var(--gray-light);
+    padding: 0.3rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .info-card ul li::before { content: '▸'; color: var(--red-mid); font-size: 0.7rem; }
+
+  .rank-list { list-style: none !important; }
+  .rank-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 0.85rem;
+  }
+  .rank-name { color: var(--cream); font-weight: 600; }
+  .rank-desc { color: var(--gray); font-size: 0.78rem; letter-spacing: 0.05em; }
+
+  .apply-cta {
+    background: linear-gradient(135deg, var(--navy-light), var(--navy-mid));
+    border: 1px solid var(--red);
+    padding: 2.5rem;
+    text-align: center;
+    margin-top: 1.5rem;
+  }
+
+  .apply-cta h3 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.6rem;
+    text-transform: uppercase;
+    color: var(--cream);
+    margin-bottom: 0.5rem;
+  }
+
+  .apply-cta p {
+    color: var(--gray-light);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* ===== NEW MEMBER ===== */
+  .content-wrap {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+  }
+
+  .welcome-banner {
+    background: var(--navy-mid);
+    border-left: 4px solid var(--red);
+    padding: 1.8rem 2rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .welcome-banner h2 {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--gold-light);
+    margin-bottom: 0.5rem;
+  }
+
+  .welcome-banner p {
+    font-size: 0.9rem;
+    color: var(--gray-light);
+    line-height: 1.7;
+  }
+
+  .steps-list { display: grid; gap: 0.8rem; margin-bottom: 2.5rem; }
+
+  .step {
+    display: flex;
+    gap: 1.5rem;
+    background: var(--navy-card);
+    border: 1px solid rgba(201,160,112,0.08);
+    padding: 1.4rem 1.6rem;
+    align-items: flex-start;
+    transition: border-color 0.2s;
+  }
+  .step:hover { border-color: rgba(201,160,112,0.2); }
+
+  .step-num {
+    font-family: 'Oswald', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--red);
+    opacity: 0.6;
+    line-height: 1;
+    flex-shrink: 0;
+    width: 2.2rem;
+  }
+
+  .step h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--cream);
+    margin-bottom: 0.3rem;
+  }
+
+  .step p {
+    font-size: 0.86rem;
+    color: var(--gray-light);
+    line-height: 1.65;
+  }
+
+  .rules-card {
+    background: var(--navy-card);
+    border: 1px solid rgba(201,160,112,0.1);
+    padding: 2rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .rules-card h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid rgba(201,160,112,0.1);
+  }
+
+  .rule {
+    display: flex;
+    gap: 1.2rem;
+    margin-bottom: 1rem;
+    align-items: flex-start;
+  }
+
+  .rule-sec {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--red-mid);
+    flex-shrink: 0;
+    margin-top: 1px;
+    min-width: 2rem;
+  }
+
+  .rule p {
+    font-size: 0.87rem;
+    color: var(--gray-light);
+    line-height: 1.65;
+  }
+
+  /* ===== PORTAL ===== */
+  .portal-wrap {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+  }
+
+  .portal-box {
+    background: var(--navy-card);
+    border: 1px solid rgba(201,160,112,0.15);
+  }
+
+  .portal-header {
+    background: var(--red);
+    padding: 1.2rem 2rem;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--cream);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .portal-body { padding: 2rem; }
+
+  .portal-tabs {
+    display: flex;
+    border-bottom: 1px solid rgba(201,160,112,0.12);
+    margin-bottom: 2rem;
+  }
+
+  .ptab {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.7rem 1.4rem;
+    cursor: pointer;
+    color: var(--gray);
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: all 0.2s;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+  }
+  .ptab.active { color: var(--cream); border-bottom-color: var(--red); }
+
+  .pform { display: none; }
+  .pform.active { display: block; }
+
+  .fg { margin-bottom: 1rem; }
+
+  .fg label {
+    display: block;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: 5px;
+  }
+
+  .fg input, .fg select, .fg textarea {
+    width: 100%;
+    background: var(--navy);
+    border: 1px solid rgba(201,160,112,0.15);
+    color: var(--cream);
+    padding: 0.7rem 0.9rem;
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.88rem;
+    outline: none;
+    transition: border-color 0.2s;
+    resize: none;
+  }
+
+  .fg input:focus, .fg select:focus, .fg textarea:focus {
+    border-color: var(--red-mid);
+  }
+
+  .fg select option { background: var(--navy-mid); color: var(--cream); }
+
+  .fg-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+
+  .portal-box .btn { width: 100%; justify-content: center; padding: 11px; font-size: 0.85rem; margin-top: 0.4rem; }
+
+  .portal-note {
+    font-size: 0.76rem;
+    color: var(--gray);
+    text-align: center;
+    margin-top: 1rem;
+    line-height: 1.6;
+  }
+
+  /* ===== TIME CLOCK ===== */
+  .tc-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 3.5rem 2rem;
+  }
+
+  .clock-card {
+    background: var(--navy-card);
+    border: 1px solid rgba(201,160,112,0.12);
+    padding: 2.5rem;
+    text-align: center;
+    margin-bottom: 1.2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .clock-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--red), var(--gold), var(--teal-dim));
+  }
+
+  .live-time {
+    font-family: 'Oswald', sans-serif;
+    font-size: 4.5rem;
+    color: var(--cream);
+    letter-spacing: 0.05em;
+    line-height: 1;
+    margin-bottom: 0.2rem;
+  }
+
+  .live-date {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: 1.2rem;
+  }
+
+  .duty-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border: 1px solid;
+    transition: all 0.3s;
+  }
+
+  .duty-status.off { color: var(--gray); border-color: rgba(122,143,168,0.3); }
+  .duty-status.on { color: #4ade80; border-color: rgba(74,222,128,0.3); background: rgba(74,222,128,0.06); }
+
+  .status-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--gray);
+    flex-shrink: 0;
+  }
+
+  .status-dot.active {
+    background: #4ade80;
+    animation: blinkDot 1.8s ease-in-out infinite;
+  }
+
+  @keyframes blinkDot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .session-elapsed {
+    display: none;
+    margin-top: 0.8rem;
+    font-family: 'Oswald', sans-serif;
+    font-size: 0.95rem;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+  }
+
+  .tc-user-bar {
+    background: var(--navy-mid);
+    border: 1px solid rgba(201,160,112,0.1);
+    padding: 1rem 1.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.2rem;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
+
+  .tc-user-info { display: flex; gap: 2rem; flex-wrap: wrap; }
+
+  .tc-field label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gray);
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .tc-field span {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1rem;
+    color: var(--cream);
+    letter-spacing: 0.04em;
+  }
+
+  .tc-field span.gold { color: var(--gold); }
+
+  .action-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .tc-btn {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 1rem;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s;
+  }
+
+  .tc-btn.in  { background: #14532d; color: #4ade80; border: 1px solid rgba(74,222,128,0.2); }
+  .tc-btn.in:hover  { background: #166534; }
+  .tc-btn.out { background: #7f1d1d; color: #f87171; border: 1px solid rgba(248,113,113,0.2); }
+  .tc-btn.out:hover { background: #991b1b; }
+  .tc-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  .log-box {
+    background: var(--navy-card);
+    border: 1px solid rgba(201,160,112,0.1);
+    overflow: hidden;
+  }
+
+  .log-title {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(201,160,112,0.08);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  table { width: 100%; border-collapse: collapse; }
+
+  th {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gray);
+    padding: 0.75rem 1.2rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  td {
+    font-size: 0.84rem;
+    color: var(--gray-light);
+    padding: 0.7rem 1.2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .badge {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 2px 9px;
+  }
+
+  .badge.active { background: rgba(74,222,128,0.1); color: #4ade80; }
+  .badge.done   { background: rgba(122,143,168,0.1); color: var(--gray); }
+
+  .dur { color: var(--gold); font-family: 'Oswald', sans-serif; }
+
+  /* ===== ALERT ===== */
+  .alert {
+    padding: 0.75rem 1.1rem;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+    border-left: 3px solid;
+    display: none;
+    font-family: 'Source Sans 3', sans-serif;
+  }
+  .alert.success { background: rgba(74,222,128,0.07); color: #4ade80; border-color: #4ade80; }
+  .alert.error   { background: rgba(248,113,113,0.07); color: #f87171; border-color: #f87171; }
+  .alert.show    { display: block; }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: var(--navy);
+    border-top: 1px solid rgba(201,160,112,0.1);
+    padding: 2.5rem;
+    text-align: center;
+  }
+
+  .footer-logo {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--cream);
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+
+  .footer-band {
+    display: inline-block;
+    background: var(--red);
+    color: var(--cream);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    padding: 1px 8px;
+    margin-bottom: 8px;
+  }
+
+  footer p {
+    font-size: 0.75rem;
+    color: var(--gray);
+    line-height: 1.8;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .info-grid  { grid-template-columns: 1fr; }
+    .fg-row     { grid-template-columns: 1fr; }
+    .action-row { grid-template-columns: 1fr; }
+    .hero-badges { gap: 1.2rem; flex-wrap: wrap; justify-content: center; }
+    .info-card.full { grid-column: auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">🚨 Freemont Atlas State Roleplay &nbsp;·&nbsp; Roblox Emergency Services Community &nbsp;·&nbsp; Now Recruiting All Departments 🚨</div>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-brand" onclick="showPage('home')">
+    <div class="logo-mark">
+      <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Shield shape -->
+        <path d="M40 4L74 16V46C74 62 58 74 40 78C22 74 6 62 6 46V16L40 4Z" fill="#1a2535"/>
+        <path d="M40 4L74 16V46C74 62 58 74 40 78C22 74 6 62 6 46V16L40 4Z" stroke="#c9a070" stroke-width="1.5" opacity="0.7"/>
+        <!-- Red banner stripe -->
+        <rect x="6" y="32" width="68" height="18" fill="#8b2020"/>
+        <!-- Skyline silhouette top -->
+        <path d="M14 32 L14 26 L18 26 L18 22 L22 22 L22 26 L26 26 L26 20 L28 20 L28 16 L30 16 L30 20 L32 20 L32 32Z" fill="#c9a070" opacity="0.9"/>
+        <path d="M48 32 L48 20 L50 20 L50 16 L52 16 L52 20 L54 20 L54 24 L58 24 L58 28 L62 28 L62 26 L64 26 L64 32Z" fill="#c9a070" opacity="0.9"/>
+        <!-- Moon -->
+        <circle cx="40" cy="18" r="5" fill="#4abbc4" opacity="0.85"/>
+        <!-- FREEMONT text on banner -->
+        <text x="40" y="44" text-anchor="middle" font-family="Impact,Oswald,sans-serif" font-size="9" fill="#f0e8d0" letter-spacing="2" font-weight="900">FREEMONT</text>
+        <!-- Bottom text -->
+        <text x="40" y="64" text-anchor="middle" font-family="Arial,sans-serif" font-size="5" fill="#c9a070" letter-spacing="1.5">ATLAS STATE</text>
+        <text x="40" y="72" text-anchor="middle" font-family="Arial,sans-serif" font-size="4" fill="#7a8fa8" letter-spacing="2">ROLEPLAY</text>
+      </svg>
+    </div>
+    <div class="nav-title-wrap">
+      <div class="nav-title-top">Freemont</div>
+      <div class="nav-title-band">Atlas State</div>
+      <div class="nav-title-bot">Roleplay</div>
+    </div>
+  </div>
+
+  <ul class="nav-links">
+    <li><a href="#" onclick="showPage('home')"        id="nav-home"        class="active">Home</a></li>
+    <li><a href="#" onclick="showPage('new-member')"  id="nav-new-member">New Members</a></li>
+    <li><a href="#" onclick="showPage('departments')" id="nav-departments">Departments</a></li>
+    <li><a href="#" onclick="showPage('timeclock')"   id="nav-timeclock">Time Clock</a></li>
+    <li><a href="#" onclick="showPage('portal')"      id="nav-portal">Member Portal</a></li>
+  </ul>
+
+  <div class="nav-actions">
+    <a href="#" class="btn btn-outline" onclick="showPage('new-member')">Apply Now</a>
+    <a href="#" class="btn btn-red"     onclick="showPage('portal')">Member Login</a>
+  </div>
+</nav>
+
+<!-- ======================================================== HOME ======================================================== -->
+<div id="page-home" class="page active">
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-skyline"></div>
+
+    <!-- Large hero logo -->
+    <div class="hero-logo">
+      <svg viewBox="0 0 160 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M80 8L152 34V96C152 134 118 162 80 174C42 162 8 134 8 96V34L80 8Z" fill="#111c2a"/>
+        <path d="M80 8L152 34V96C152 134 118 162 80 174C42 162 8 134 8 96V34L80 8Z" stroke="#c9a070" stroke-width="2.5" opacity="0.6"/>
+        <!-- skyline -->
+        <path d="M20 82 L20 68 L28 68 L28 60 L36 60 L36 52 L40 52 L40 46 L44 46 L44 52 L48 52 L48 60 L54 60 L54 68 L60 68 L60 82Z" fill="#c9a070" opacity="0.7"/>
+        <path d="M100 82 L100 62 L104 62 L104 54 L108 54 L108 46 L112 46 L112 40 L116 40 L116 46 L120 46 L120 54 L126 54 L126 62 L132 62 L132 70 L140 70 L140 82Z" fill="#c9a070" opacity="0.7"/>
+        <!-- moon -->
+        <circle cx="80" cy="44" r="12" fill="#4abbc4" opacity="0.8"/>
+        <circle cx="86" cy="41" r="9" fill="#111c2a"/>
+        <!-- red banner -->
+        <rect x="8" y="78" width="144" height="36" fill="#8b2020"/>
+        <text x="80" y="101" text-anchor="middle" font-family="Impact,sans-serif" font-size="22" fill="#f0e8d0" letter-spacing="4" font-weight="900">FREEMONT</text>
+        <!-- atlas state band -->
+        <rect x="24" y="118" width="112" height="18" fill="#1a2535" stroke="#c9a070" stroke-width="1"/>
+        <text x="80" y="130" text-anchor="middle" font-family="Arial,sans-serif" font-size="9" fill="#c9a070" letter-spacing="3" font-weight="700">ATLAS STATE</text>
+        <!-- roleplay -->
+        <text x="80" y="155" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" fill="#7a8fa8" letter-spacing="3.5">ROLEPLAY</text>
+      </svg>
+    </div>
+
+    <div class="hero-eyebrow">Roblox Emergency Services</div>
+    <div class="hero-title">City of</div>
+    <div class="hero-title-band">Atlas State &nbsp;·&nbsp; Freemont</div>
+    <div class="hero-sub-title">Roleplay Community</div>
+
+    <div class="hero-divider">
+      <div class="hero-divider-icon">★</div>
+    </div>
+
+    <p class="hero-desc">
+      A professional, immersive emergency services roleplay community on Roblox. Serve as a firefighter, police officer, medic, or dispatcher in the City of Freemont.
+    </p>
+
+    <div class="hero-buttons">
+      <a href="#" class="btn btn-red" onclick="showPage('new-member')" style="padding:13px 30px;font-size:0.9rem;">🎖 Apply to Join</a>
+      <a href="#" class="btn btn-outline" onclick="showPage('departments')" style="padding:13px 30px;font-size:0.9rem;">View Departments</a>
+    </div>
+
+    <div class="hero-badges">
+      <div class="hero-badge-item">
+        <div class="hero-badge-val">4</div>
+        <div class="hero-badge-label">Departments</div>
+      </div>
+      <div class="hero-badge-item">
+        <div class="hero-badge-val" style="color:var(--teal)">Active</div>
+        <div class="hero-badge-label">Community Status</div>
+      </div>
+      <div class="hero-badge-item">
+        <div class="hero-badge-val">RP</div>
+        <div class="hero-badge-label">Roblox Platform</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Departments overview -->
+  <div class="section">
+    <div class="section-label">Serve the City</div>
+    <div class="section-title">Choose Your <span>Department</span></div>
+    <div class="section-rule"></div>
+    <div class="dept-grid">
+      <div class="dept-card ffd" onclick="showDept('ffd')">
+        <div class="dept-icon-wrap">🚒</div>
+        <div class="dept-abbr">FFD</div>
+        <div class="dept-full">Freemont Fire Department</div>
+        <div class="dept-desc">Respond to structure fires, vehicle accidents, hazmat incidents, and conduct rescue operations across Freemont.</div>
+        <div class="dept-cta">Enter Department →</div>
+      </div>
+      <div class="dept-card fpd" onclick="showDept('fpd')">
+        <div class="dept-icon-wrap">🚔</div>
+        <div class="dept-abbr">FPD</div>
+        <div class="dept-full">Freemont Police Department</div>
+        <div class="dept-desc">Enforce the law, conduct traffic enforcement, respond to calls, and maintain order in the City of Freemont.</div>
+        <div class="dept-cta">Enter Department →</div>
+      </div>
+      <div class="dept-card fems" onclick="showDept('fems')">
+        <div class="dept-icon-wrap">🚑</div>
+        <div class="dept-abbr">FEMS</div>
+        <div class="dept-full">Freemont EMS</div>
+        <div class="dept-desc">Provide emergency medical care, patient stabilization, and hospital transport across the city.</div>
+        <div class="dept-cta">Enter Department →</div>
+      </div>
+      <div class="dept-card fcom" onclick="showDept('fcom')">
+        <div class="dept-icon-wrap">📡</div>
+        <div class="dept-abbr">FCOM</div>
+        <div class="dept-full">Freemont Communications</div>
+        <div class="dept-desc">Operate the dispatch center, coordinate multi-agency responses, and manage all radio traffic.</div>
+        <div class="dept-cta">Enter Department →</div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-logo">Freemont</div>
+    <div class="footer-band">Atlas State Roleplay</div>
+    <p>A Roblox emergency services roleplay community &nbsp;·&nbsp; Not affiliated with any real government agency<br>© 2025 City of Freemont Roleplay</p>
+  </footer>
+</div>
+
+<!-- ======================================================== DEPT DETAIL ======================================================== -->
+<div id="page-dept" class="page">
+  <div class="dept-detail-hero">
+    <div class="dept-detail-inner">
+      <div class="dept-badge-large" id="dd-icon">🚒</div>
+      <div class="dept-detail-info">
+        <h1 id="dd-title">Freemont Fire Department</h1>
+        <div class="dept-sub" id="dd-sub">Fire suppression, rescue, and hazmat response</div>
+      </div>
+    </div>
+  </div>
+  <div class="dept-detail-body" id="dd-body"></div>
+</div>
+
+<!-- ======================================================== DEPARTMENTS LIST ======================================================== -->
+<div id="page-departments" class="page">
+  <div class="section" style="padding-top:3rem;">
+    <div class="section-label">All Divisions</div>
+    <div class="section-title">Our <span>Departments</span></div>
+    <div class="section-rule"></div>
+    <div class="dept-grid">
+      <div class="dept-card ffd" onclick="showDept('ffd')">
+        <div class="dept-icon-wrap">🚒</div>
+        <div class="dept-abbr">FFD</div>
+        <div class="dept-full">Freemont Fire Department</div>
+        <div class="dept-desc">Fire suppression, technical rescue, and hazmat response serving all of Freemont.</div>
+        <div class="dept-cta">View Details →</div>
+      </div>
+      <div class="dept-card fpd" onclick="showDept('fpd')">
+        <div class="dept-icon-wrap">🚔</div>
+        <div class="dept-abbr">FPD</div>
+        <div class="dept-full">Freemont Police Department</div>
+        <div class="dept-desc">Law enforcement, patrol operations, and criminal investigations.</div>
+        <div class="dept-cta">View Details →</div>
+      </div>
+      <div class="dept-card fems" onclick="showDept('fems')">
+        <div class="dept-icon-wrap">🚑</div>
+        <div class="dept-abbr">FEMS</div>
+        <div class="dept-full">Freemont EMS</div>
+        <div class="dept-desc">Pre-hospital emergency medical care and patient transport.</div>
+        <div class="dept-cta">View Details →</div>
+      </div>
+      <div class="dept-card fcom" onclick="showDept('fcom')">
+        <div class="dept-icon-wrap">📡</div>
+        <div class="dept-abbr">FCOM</div>
+        <div class="dept-full">Freemont Communications</div>
+        <div class="dept-desc">Emergency dispatch and inter-agency radio coordination.</div>
+        <div class="dept-cta">View Details →</div>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div class="footer-logo">Freemont</div>
+    <div class="footer-band">Atlas State Roleplay</div>
+    <p>A Roblox emergency services roleplay community</p>
+  </footer>
+</div>
+
+<!-- ======================================================== NEW MEMBER ======================================================== -->
+<div id="page-new-member" class="page">
+  <div class="content-wrap">
+    <div class="section-label">Getting Started</div>
+    <div class="section-title">New <span>Member Guide</span></div>
+    <div class="section-rule"></div>
+
+    <div class="welcome-banner">
+      <h2>Welcome to Freemont Atlas State Roleplay</h2>
+      <p>Thank you for your interest in our Roblox emergency services roleplay community. We take pride in offering a realistic, professional experience. Please read through this guide carefully before submitting your application.</p>
+    </div>
+
+    <div class="steps-list">
+      <div class="step"><div class="step-num">01</div><div><h3>Join Our Roblox Group</h3><p>Search "Freemont Atlas State Roleplay" on Roblox and request to join our group. Group membership is required to receive your department rank and access roleplay servers.</p></div></div>
+      <div class="step"><div class="step-num">02</div><div><h3>Read the Community Rules</h3><p>All members are expected to follow our rules at all times. Violations are taken seriously and can result in suspension or permanent removal from the community.</p></div></div>
+      <div class="step"><div class="step-num">03</div><div><h3>Choose Your Department</h3><p>Review the FFD, FPD, FEMS, and FCOM department pages and decide where you'd like to serve. Members are only active in one department at a time during their first 30 days.</p></div></div>
+      <div class="step"><div class="step-num">04</div><div><h3>Create Account & Apply</h3><p>Register in the Member Portal and submit your department application. Applications are reviewed by department supervisors within 48 hours of submission.</p></div></div>
+      <div class="step"><div class="step-num">05</div><div><h3>Complete Cadet Training</h3><p>Accepted applicants will be invited to a scheduled cadet training session. Attendance is mandatory. Trainees who pass receive their official rank assignment.</p></div></div>
+      <div class="step"><div class="step-num">06</div><div><h3>Log Your Duty Hours</h3><p>All members are required to use the Time Clock to log duty sessions. Minimum activity requirements apply. Falsifying time records is grounds for immediate removal.</p></div></div>
+    </div>
+
+    <div class="rules-card">
+      <h3>Community Rules</h3>
+      <div class="rule"><div class="rule-sec">§ 1</div><p>All members must treat fellow community members with respect at all times. Harassment, bullying, hate speech, or discrimination of any kind will result in immediate removal.</p></div>
+      <div class="rule"><div class="rule-sec">§ 2</div><p>Roleplay must be realistic and immersive at all times. Fail RP, RDM (Random Death Match), VDM (Vehicle Death Match), or breaking character without command authorization is prohibited.</p></div>
+      <div class="rule"><div class="rule-sec">§ 3</div><p>Proper radio codes and department communication procedures must be used while on duty. Casual or off-topic conversation on department radio channels is not permitted.</p></div>
+      <div class="rule"><div class="rule-sec">§ 4</div><p>Authorized uniforms and department vehicles must be used at all times while on duty. Unauthorized appearance modifications or use of non-department equipment is prohibited.</p></div>
+      <div class="rule"><div class="rule-sec">§ 5</div><p>All duty sessions must be accurately logged through the Time Clock system. Session records are monitored by department leadership for activity compliance.</p></div>
+      <div class="rule"><div class="rule-sec">§ 6</div><p>All internal conflicts and disputes must be reported to department leadership through the proper chain of command. Do not attempt to resolve disputes through in-game actions.</p></div>
+      <div class="rule"><div class="rule-sec">§ 7</div><p>Members must maintain a minimum activity level as set by their department. Extended absences require prior notice to your supervisor or may result in rank reduction.</p></div>
+    </div>
+
+    <div style="text-align:center;">
+      <p style="color:var(--gray-light);font-size:0.9rem;margin-bottom:1.2rem;">Ready to join? Create your free account to begin your application.</p>
+      <a href="#" class="btn btn-red" onclick="showPage('portal');switchTab('register')" style="padding:13px 30px;font-size:0.9rem;">Create Account & Apply →</a>
+    </div>
+  </div>
+  <footer>
+    <div class="footer-logo">Freemont</div>
+    <div class="footer-band">Atlas State Roleplay</div>
+    <p>A Roblox emergency services roleplay community</p>
+  </footer>
+</div>
+
+<!-- ======================================================== PORTAL ======================================================== -->
+<div id="page-portal" class="page">
+  <div class="portal-wrap">
+    <div class="section-label">Secure Access</div>
+    <div class="section-title">Member <span>Portal</span></div>
+    <div class="section-rule"></div>
+
+    <div class="portal-box">
+      <div class="portal-header">🔒 &nbsp; Freemont Atlas State — Member Access</div>
+      <div class="portal-body">
+        <div class="portal-tabs">
+          <button class="ptab active" id="ptab-login"    onclick="switchTab('login')">Member Login</button>
+          <button class="ptab"        id="ptab-register" onclick="switchTab('register')">New Application</button>
+        </div>
+
+        <!-- LOGIN -->
+        <div class="pform active" id="pform-login">
+          <div id="al-login" class="alert"></div>
+          <div class="fg">
+            <label>Roblox Username</label>
+            <input type="text" id="li-user" placeholder="Your Roblox username">
+          </div>
+          <div class="fg">
+            <label>Password</label>
+            <input type="password" id="li-pass" placeholder="••••••••">
+          </div>
+          <button class="btn btn-red" onclick="doLogin()">Sign In →</button>
+          <p class="portal-note">Access is restricted to approved community members.<br>Contact your supervisor if you have login issues.</p>
+        </div>
+
+        <!-- REGISTER -->
+        <div class="pform" id="pform-register">
+          <div id="al-reg" class="alert"></div>
+          <div class="fg-row">
+            <div class="fg">
+              <label>Roblox Username</label>
+              <input type="text" placeholder="Your Roblox username">
+            </div>
+            <div class="fg">
+              <label>Age</label>
+              <input type="number" placeholder="13" min="13">
+            </div>
+          </div>
+          <div class="fg">
+            <label>Department Applying For</label>
+            <select>
+              <option value="">Select a department...</option>
+              <option>Freemont Fire Department (FFD)</option>
+              <option>Freemont Police Department (FPD)</option>
+              <option>Freemont EMS (FEMS)</option>
+              <option>Freemont Communications (FCOM)</option>
+            </select>
+          </div>
+          <div class="fg-row">
+            <div class="fg">
+              <label>Password</label>
+              <input type="password" placeholder="8+ characters">
+            </div>
+            <div class="fg">
+              <label>Confirm Password</label>
+              <input type="password" placeholder="Repeat password">
+            </div>
+          </div>
+          <div class="fg">
+            <label>Why do you want to join?</label>
+            <textarea rows="3" placeholder="Brief statement — optional but encouraged..."></textarea>
+          </div>
+          <button class="btn btn-red" onclick="doRegister()">Submit Application →</button>
+          <p class="portal-note">Applications reviewed within 48 hours.<br>Database connection will be added in a future update.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div class="footer-logo">Freemont</div>
+    <div class="footer-band">Atlas State Roleplay</div>
+    <p>A Roblox emergency services roleplay community</p>
+  </footer>
+</div>
+
+<!-- ======================================================== TIME CLOCK ======================================================== -->
+<div id="page-timeclock" class="page">
+  <div class="tc-wrap">
+    <div class="section-label">Duty Tracking</div>
+    <div class="section-title">Time <span>Clock</span></div>
+    <div class="section-rule"></div>
+
+    <!-- Login required -->
+    <div id="tc-prompt">
+      <div style="background:var(--navy-card);border:1px solid rgba(201,160,112,0.12);padding:3rem 2rem;text-align:center;">
+        <div style="font-size:3rem;margin-bottom:1rem;">🕐</div>
+        <h3 style="font-family:'Oswald',sans-serif;font-size:1.3rem;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.5rem;">Login Required</h3>
+        <p style="color:var(--gray-light);font-size:0.9rem;margin-bottom:1.5rem;">You must be a logged-in member to access the Time Clock.</p>
+        <a href="#" class="btn btn-red" onclick="tcDemoLogin()" style="padding:11px 28px;">Demo Login</a>
+        <a href="#" class="btn btn-outline" onclick="showPage('portal')" style="padding:11px 28px;margin-left:8px;">Member Login</a>
+      </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="tc-dash" style="display:none;">
+      <div id="al-tc" class="alert"></div>
+
+      <div class="tc-user-bar">
+        <div class="tc-user-info">
+          <div class="tc-field"><label>Member</label><span class="gold" id="tc-uname">DemoUser</span></div>
+          <div class="tc-field"><label>Department</label><span id="tc-udept">Freemont Police Department</span></div>
+          <div class="tc-field"><label>Rank</label><span id="tc-urank">Police Officer I</span></div>
+        </div>
+        <button onclick="tcLogout()" style="background:none;border:1px solid rgba(201,160,112,0.2);color:var(--gray);padding:6px 14px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:0.75rem;letter-spacing:0.12em;text-transform:uppercase;">Log Out</button>
+      </div>
+
+      <div class="clock-card">
+        <div class="live-time"  id="tc-clock">00:00:00</div>
+        <div class="live-date"  id="tc-date">Loading...</div>
+        <div class="duty-status off" id="tc-status">
+          <div class="status-dot" id="tc-dot"></div>
+          <span id="tc-status-txt">Off Duty</span>
+        </div>
+        <div class="session-elapsed" id="tc-elapsed">Session Time: <span id="tc-sess">00:00:00</span></div>
+      </div>
+
+      <div class="action-row">
+        <button class="tc-btn in"  id="tc-in"  onclick="tcClockIn()">● Clock In</button>
+        <button class="tc-btn out" id="tc-out" onclick="tcClockOut()" disabled>■ Clock Out</button>
+      </div>
+
+      <div class="log-box">
+        <div class="log-title">Session History</div>
+        <table>
+          <thead><tr><th>Date</th><th>Clock In</th><th>Clock Out</th><th>Duration</th><th>Status</th></tr></thead>
+          <tbody id="tc-log">
+            <tr><td colspan="5" style="text-align:center;color:var(--gray);padding:2rem;">No sessions recorded yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div class="footer-logo">Freemont</div>
+    <div class="footer-band">Atlas State Roleplay</div>
+    <p>A Roblox emergency services roleplay community</p>
+  </footer>
+</div>
+
+<script>
+// ======================== NAVIGATION ========================
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  const el = document.getElementById('nav-' + id);
+  if (el) el.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ======================== DEPT DATA ========================
+const DEPTS = {
+  ffd: {
+    icon: '🚒',
+    title: 'Freemont Fire Department',
+    sub: 'Fire suppression, technical rescue & hazmat response',
+    mission: 'The Freemont Fire Department exists to protect the lives and property of the citizens and visitors of Freemont through rapid, professional emergency response. Members operate engine companies, ladder trucks, and rescue units across the city.',
+    responsibilities: ['Structure fire suppression','Vehicle extrication & rescue','Hazardous materials response','Water rescue operations','Emergency medical first response','Fire prevention & public education'],
+    ranks: [
+      ['Cadet','Probationary – In Training'],
+      ['Firefighter','Entry Level – Certified'],
+      ['Driver / Engineer','Apparatus Operator'],
+      ['Lieutenant','Company Officer'],
+      ['Captain','Company Commander'],
+      ['Battalion Chief','Senior Field Command'],
+      ['Deputy Chief','Administrative Command'],
+      ['Fire Chief','Department Commander'],
+    ],
+    note: 'FFD is currently accepting applications for Firefighter Cadets. No experience required — all training is provided in-game.'
+  },
+  fpd: {
+    icon: '🚔',
+    title: 'Freemont Police Department',
+    sub: 'Law enforcement, patrol operations & criminal investigations',
+    mission: 'The Freemont Police Department is committed to professional, fair, and transparent law enforcement. Officers conduct patrol, traffic enforcement, criminal investigations, and community engagement throughout the city.',
+    responsibilities: ['Marked patrol & traffic enforcement','Criminal investigations','Emergency call response','Warrant service operations','Special operations support','Community policing initiatives'],
+    ranks: [
+      ['Cadet','Probationary – In Training'],
+      ['Police Officer I','Patrol – Entry Level'],
+      ['Police Officer II','Patrol – Senior'],
+      ['Detective','Investigations Division'],
+      ['Sergeant','First-Line Supervisor'],
+      ['Lieutenant','Watch Commander'],
+      ['Captain','Division Commander'],
+      ['Deputy Chief','Administrative Command'],
+      ['Chief of Police','Department Commander'],
+    ],
+    note: 'FPD is recruiting patrol officers. We look for professional, fair-minded individuals who are committed to realistic law enforcement RP.'
+  },
+  fems: {
+    icon: '🚑',
+    title: 'Freemont EMS',
+    sub: 'Pre-hospital emergency medical care & patient transport',
+    mission: 'Freemont EMS delivers life-saving emergency medical care to patients across the city. Working in close coordination with FFD and FPD, FEMS units respond to medical emergencies, trauma, and mass casualty incidents.',
+    responsibilities: ['Emergency medical response','Patient assessment & treatment','Advanced life support','Hospital transport coordination','Mass casualty incident management','Inter-agency medical liaison'],
+    ranks: [
+      ['Cadet EMT','Probationary – In Training'],
+      ['EMT-Basic','Certified Entry Level'],
+      ['EMT-Advanced','Advanced Certification'],
+      ['Paramedic','Full ALS Certification'],
+      ['Senior Paramedic','Field Trainer Qualified'],
+      ['EMS Lieutenant','Shift Supervisor'],
+      ['EMS Captain','Division Supervisor'],
+      ['EMS Director','Department Commander'],
+    ],
+    note: 'FEMS is currently recruiting EMT Cadets and Paramedics. If you have a passion for medical roleplay, this is your department.'
+  },
+  fcom: {
+    icon: '📡',
+    title: 'Freemont Communications',
+    sub: 'Emergency dispatch & multi-agency radio coordination',
+    mission: 'Freemont Communications is the operational hub of all emergency activity in the city. Dispatchers receive and triage emergency calls, dispatch units, coordinate multi-agency responses, and manage radio traffic across FFD, FPD, and FEMS simultaneously.',
+    responsibilities: ['Emergency call intake & triage','Unit dispatching across all departments','Radio traffic management','Multi-agency incident coordination','BOLO & broadcast distribution','Incident documentation & logging'],
+    ranks: [
+      ['Cadet Dispatcher','Probationary – In Training'],
+      ['Dispatcher I','Certified – Entry Level'],
+      ['Dispatcher II','Senior Dispatcher'],
+      ['Lead Dispatcher','Shift Lead'],
+      ['Comm Supervisor','Shift Supervisor'],
+      ['Comm Lieutenant','Operations Lead'],
+      ['Comm Director','Department Commander'],
+    ],
+    note: 'FCOM is the backbone of Freemont RP. Ideal for players who enjoy coordination and support roles. We train all cadets from scratch.'
+  }
+};
+
+function showDept(id) {
+  const d = DEPTS[id];
+  document.getElementById('dd-icon').textContent = d.icon;
+  document.getElementById('dd-title').textContent = d.title;
+  document.getElementById('dd-sub').textContent = d.sub;
+
+  const respHtml  = d.responsibilities.map(r => `<li>${r}</li>`).join('');
+  const rankHtml  = d.ranks.map(r => `<div class="rank-item"><span class="rank-name">${r[0]}</span><span class="rank-desc">${r[1]}</span></div>`).join('');
+
+  document.getElementById('dd-body').innerHTML = `
+    <div class="info-grid">
+      <div class="info-card full">
+        <h3>Mission Statement</h3>
+        <p>${d.mission}</p>
+      </div>
+      <div class="info-card">
+        <h3>Responsibilities</h3>
+        <ul>${respHtml}</ul>
+      </div>
+      <div class="info-card">
+        <h3>Rank Structure</h3>
+        <div class="rank-list">${rankHtml}</div>
+      </div>
+    </div>
+    <div class="apply-cta">
+      <h3>Join ${d.title}</h3>
+      <p>${d.note}</p>
+      <a href="#" class="btn btn-red" onclick="showPage('portal');switchTab('register')" style="padding:12px 28px;">Apply Now →</a>
+    </div>
+  `;
+
+  showPage('dept');
+}
+
+// ======================== PORTAL TABS ========================
+function switchTab(tab) {
+  document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.pform').forEach(f => f.classList.remove('active'));
+  document.getElementById('ptab-' + tab).classList.add('active');
+  document.getElementById('pform-' + tab).classList.add('active');
+}
+
+function showAlert(id, type, msg) {
+  const el = document.getElementById(id);
+  el.className = `alert ${type} show`;
+  el.textContent = msg;
+  setTimeout(() => el.classList.remove('show'), 5000);
+}
+
+function doLogin() {
+  const u = document.getElementById('li-user').value.trim();
+  const p = document.getElementById('li-pass').value;
+  if (!u || !p) { showAlert('al-login','error','Please enter your username and password.'); return; }
+  showAlert('al-login','success','Database not yet connected. Member login coming soon!');
+}
+
+function doRegister() {
+  showAlert('al-reg','success','Application submitted successfully! A supervisor will review it within 48 hours. (Database coming soon.)');
+}
+
+// ======================== TIME CLOCK ========================
+let tcActive = false, tcStart = null, tcInterval = null;
+
+function pad(n) { return String(n).padStart(2,'0'); }
+
+function updateClock() {
+  const now = new Date();
+  document.getElementById('tc-clock').textContent =
+    `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+  document.getElementById('tc-date').textContent =
+    now.toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'}).toUpperCase();
+}
+
+setInterval(updateClock, 1000);
+updateClock();
+
+function tcDemoLogin() {
+  document.getElementById('tc-prompt').style.display = 'none';
+  document.getElementById('tc-dash').style.display = 'block';
+}
+
+function tcLogout() {
+  if (tcActive) tcClockOut();
+  document.getElementById('tc-prompt').style.display = '';
+  document.getElementById('tc-dash').style.display = 'none';
+}
+
+function tcClockIn() {
+  tcActive = true;
+  tcStart  = new Date();
+  document.getElementById('tc-in').disabled  = true;
+  document.getElementById('tc-out').disabled = false;
+  document.getElementById('tc-dot').classList.add('active');
+  document.getElementById('tc-status').className = 'duty-status on';
+  document.getElementById('tc-status-txt').textContent = 'On Duty';
+  document.getElementById('tc-elapsed').style.display = 'block';
+
+  tcInterval = setInterval(() => {
+    const s = Math.floor((new Date() - tcStart) / 1000);
+    document.getElementById('tc-sess').textContent = fmtDur(s);
+  }, 1000);
+
+  showAlert('al-tc','success','Clocked in at ' + tcStart.toLocaleTimeString());
+}
+
+function tcClockOut() {
+  clearInterval(tcInterval);
+  const end  = new Date();
+  const secs = Math.floor((end - tcStart) / 1000);
+  tcActive   = false;
+
+  document.getElementById('tc-in').disabled  = false;
+  document.getElementById('tc-out').disabled = true;
+  document.getElementById('tc-dot').classList.remove('active');
+  document.getElementById('tc-status').className = 'duty-status off';
+  document.getElementById('tc-status-txt').textContent = 'Off Duty';
+  document.getElementById('tc-elapsed').style.display = 'none';
+
+  addLog(tcStart, end, fmtDur(secs));
+  showAlert('al-tc','success','Clocked out. Session duration: ' + fmtDur(secs));
+  tcStart = null;
+}
+
+function fmtDur(s) {
+  return `${pad(Math.floor(s/3600))}:${pad(Math.floor((s%3600)/60))}:${pad(s%60)}`;
+}
+
+function addLog(inT, outT, dur) {
+  const tb = document.getElementById('tc-log');
+  const empty = tb.querySelector('td[colspan]');
+  if (empty) empty.closest('tr').remove();
+
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td>${inT.toLocaleDateString()}</td>
+    <td>${inT.toLocaleTimeString()}</td>
+    <td>${outT.toLocaleTimeString()}</td>
+    <td class="dur">${dur}</td>
+    <td><span class="badge done">Complete</span></td>
+  `;
+  tb.prepend(tr);
+}
+</script>
+</body>
+</html>
